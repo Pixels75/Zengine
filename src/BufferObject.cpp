@@ -1,4 +1,4 @@
-#include "buffer_object.h"
+#include "BufferObject.h"
 
 BufferObject::BufferObject(const BufferObjectType type, const uint16_t size, const GLuint usage)
 : m_type(type), m_size(size) {
@@ -7,6 +7,14 @@ BufferObject::BufferObject(const BufferObjectType type, const uint16_t size, con
 
 BufferObject::~BufferObject() {
     glDeleteBuffers(1, &m_id);
+}
+
+void BufferObject::Bind() const {
+    glBindBuffer(m_type, m_id);
+}
+
+void BufferObject::Unbind() const {
+    glBindBuffer(m_type, 0);
 }
 
 VertexBufferObject::VertexBufferObject(float* vertices, const uint16_t size, const GLuint usage)

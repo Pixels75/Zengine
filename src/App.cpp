@@ -2,8 +2,8 @@
 
 #include <cassert>
 
-#include "buffer_object.h"
-#include "window.h"
+#include "BufferObject.h"
+#include "Window.h"
 
 int main() {
     // Create a new window

@@ -1,10 +1,10 @@
-#include "window.h"
+#include "Window.h"
 
 #include <cassert>
 #include <iostream>
 #include <GLFW/glfw3.h>
 
-#include "shader.h"
+#include "Shader.h"
 
 Window::Window(const uint16_t width, const uint16_t height, const char *title, const bool vSync)
     : m_width(width), m_height(height), m_title(title) {

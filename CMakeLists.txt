@@ -5,13 +5,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 set(GLFW_DIR ${PROJECT_SOURCE_DIR}/deps/GLFW)
 set(GLEW_DIR ${PROJECT_SOURCE_DIR}/deps/GLEW/2.2.0_1)
-set(SOURCE_FILES src/main.cpp
+set(SOURCE_FILES src/App.cpp
         src/window.cpp
         src/window.h
         src/shader.cpp
         src/shader.h
-        src/buffer_object.cpp
-        src/buffer_object.h)
+        src/BufferObject.cpp
+        src/BufferObject.h)
 
 include_directories(${GLFW_DIR}/include ${GLEW_DIR}/include)
 

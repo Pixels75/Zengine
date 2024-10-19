@@ -47,7 +47,7 @@ int main() {
 
     // Main Loop
     while (WindowManager::WindowIsActive()) {
-        Renderer::ClearBackground();
+        Renderer::ClearColorBuffer();
 
         i = red > 1.0f || red < 0.0f ? -i : i;
 

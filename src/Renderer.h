@@ -9,5 +9,5 @@ public:
     static void Init(bool vSync);
     static void Terminate();
 
-    static void ClearBackground();
+    static void ClearColorBuffer();
 };

@@ -2,9 +2,6 @@
 
 #include <GL/glew.h>
 
-VertexArrayLayout::VertexArrayLayout(const DataType dataType, const unsigned int count, const unsigned int stride, const bool normalize)
-: dataType(dataType), normalize(normalize), count(count), stride(stride){}
-
 VertexArrayObject::VertexArrayObject()
 : m_id(0) {
     glGenVertexArrays(1, &m_id);

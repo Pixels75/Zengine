@@ -32,6 +32,6 @@ void Renderer::Terminate() {
     glDeleteProgram(Shader);
 }
 
-void Renderer::ClearBackground() {
+void Renderer::ClearColorBuffer() {
     glClear(GL_COLOR_BUFFER_BIT);
 }

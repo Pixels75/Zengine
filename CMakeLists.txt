@@ -15,7 +15,9 @@ set(SOURCE_FILES src/App.cpp
         src/VertexArrayObject.cpp
         src/VertexArrayObject.h
         src/Renderer.cpp
-        src/Renderer.h)
+        src/Renderer.h
+        src/VertexBufferLayout.cpp
+        src/VertexBufferLayout.h)
 
 include_directories(${GLFW_DIR}/include ${GLEW_DIR}/include)
 

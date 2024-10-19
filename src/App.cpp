@@ -1,7 +1,5 @@
 #include <GL/glew.h>
 
-#include <cassert>
-
 #include "Window.h"
 #include "Renderer.h"
 #include "VertexArrayObject.h"
@@ -35,10 +33,13 @@ int main() {
     const auto vao = VertexArrayObject ();
     const auto vbo = VertexBufferObject(vertices, 8, GL_STATIC_DRAW);
     const auto ibo = IndexBufferObject (indices,  6, GL_STATIC_DRAW);
-    vao.AddVertexBuffer(vbo);
+
+    VertexBufferLayout layout;
+    layout.Push<float>(2);
+    vao.AddVertexBuffer(vbo, layout);
 
     const int location = glGetUniformLocation(Renderer::Shader, "u_Color");
-    assert(location != -1);
+    ASSERT(location != -1, "Uniform 'u_Color' not found")
     glUniform4f(location, 1.0, 0.0, 0.0, 1.0);
 
     float red = 1.0f;

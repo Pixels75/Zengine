@@ -10,7 +10,7 @@ enum BufferObjectType {
 
 class BufferObject {
 public:
-    BufferObject(BufferObjectType type, unsigned int size, GLuint usage);
+    BufferObject(BufferObjectType type, unsigned int count, GLuint usage);
     ~BufferObject();
 
     void Bind() const;
@@ -18,19 +18,20 @@ public:
 protected:
     BufferObjectType m_type = NULL_BUFFER_OBJ;
     unsigned int m_count = 0;
+    GLuint usage;
     GLuint m_id = 0;
 };
 
 class VertexBufferObject : public BufferObject {
 public:
-    VertexBufferObject(float* vertices, unsigned int size, GLuint usage);
+    VertexBufferObject(float* vertices, unsigned int count, GLuint usage);
 private:
     float* m_vertices = nullptr;
 };
 
 class IndexBufferObject : public BufferObject {
 public:
-    IndexBufferObject(unsigned int* indices, unsigned int size, GLuint usage);
+    IndexBufferObject(unsigned int* indices, unsigned int count, GLuint usage);
 private:
     unsigned int* m_indices = nullptr;
 };

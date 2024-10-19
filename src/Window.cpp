@@ -1,6 +1,7 @@
 #include "Window.h"
 
 #include <iostream>
+
 #include <GLFW/glfw3.h>
 
 #include "Shader.h"
@@ -34,26 +35,22 @@ Window::~Window() {
 }
 
 bool WindowManager::WindowIsActive() {
-    return !glfwWindowShouldClose(Instance->glfwWindow);
+    return !glfwWindowShouldClose(WindowInstance->glfwWindow);
 }
 
-Window* WindowManager::Instance = nullptr;
-
-Window* WindowManager::GetInstance() {
-    return Instance;
-}
+Window* WindowManager::WindowInstance = nullptr;
 
 void WindowManager::Init(const unsigned int width, const unsigned int height, const char* title) {
-    if (Instance != nullptr) return;
-    Instance = new Window(width, height, title);
+    if (WindowInstance != nullptr) return;
+    WindowInstance = new Window(width, height, title);
 }
 
 void WindowManager::Terminate() {
-    Instance->~Window();
-    delete Instance;
+    WindowInstance->~Window();
+    delete WindowInstance;
 }
 
 void WindowManager::UpdateWindow() {
-    glfwSwapBuffers(Instance->glfwWindow);
+    glfwSwapBuffers(WindowInstance->glfwWindow);
     glfwPollEvents();
 }

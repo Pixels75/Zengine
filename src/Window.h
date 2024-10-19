@@ -20,14 +20,13 @@ private:
 
 class WindowManager {
 public:
-    static Window* GetInstance();
-
     [[nodiscard]] static bool WindowIsActive();
 
     static void Init(unsigned int width, unsigned int height, const char* title);
     static void Terminate();
 
     static void UpdateWindow();
+
 private:
-    static Window* Instance;
+    static Window* WindowInstance;
 };

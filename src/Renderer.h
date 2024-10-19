@@ -1,6 +1,13 @@
 #pragma once
 
+#include <csignal>
 #include <GL/glew.h>
+#include <iostream>
+
+#define ASSERT(x, m) if (!(x)) {\
+        std::cout << "Assertion Failed: " << m << std::endl;\
+        raise(SIGTRAP);\
+    }
 
 class Renderer {
 public:

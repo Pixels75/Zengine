@@ -20,8 +20,21 @@ void VertexArrayObject::Unbind() const {
     glBindVertexArray(0);
 }
 
-void VertexArrayObject::AddVertexBuffer(const VertexBufferObject& vertexBuffer) const {
+void VertexArrayObject::AddVertexBuffer(const VertexBufferObject& vertexBuffer, const VertexBufferLayout& layout) const {
     vertexBuffer.Bind();
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), nullptr);
+    unsigned int offset = 0;
+    for ( int i = 0; i < layout.elements.size(); i++ ) {
+        const unsigned int size = layout.elements[i].GetSize();
+
+        glEnableVertexAttribArray(i);
+        glVertexAttribPointer(
+            i,
+            (GLint) layout.elements[i].count,
+            layout.elements[i].type,
+            layout.elements[i].normalized,
+            (GLint) layout.stride,
+            (const void*)offset
+        );
+        offset += layout.elements[i].count * size;
+    }
 }

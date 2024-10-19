@@ -11,7 +11,11 @@ set(SOURCE_FILES src/App.cpp
         src/shader.cpp
         src/shader.h
         src/BufferObject.cpp
-        src/BufferObject.h)
+        src/BufferObject.h
+        src/VertexArrayObject.cpp
+        src/VertexArrayObject.h
+        src/Renderer.cpp
+        src/Renderer.h)
 
 include_directories(${GLFW_DIR}/include ${GLEW_DIR}/include)
 

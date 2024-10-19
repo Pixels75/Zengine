@@ -6,7 +6,7 @@
 std::string Shader::LoadShader(const char *filepath) {
     std::fstream file(filepath, std::ios::in);
     if (!file.is_open()) {
-        std::cerr << "Failed to open file " << filepath << '\n';
+        std::cerr << "Failed to open shader file " << filepath << '\n';
         return {0};
     }
 
@@ -41,21 +41,21 @@ GLuint Shader::CompileShader(const GLuint type, const std::string& source) {
     return id;
 }
 
-GLuint Shader::CreateShaderProgram(const std::string& vertexShaderSource, const std::string& fragmentShaderSource) {
+GLuint Shader::CreateShader(const std::string& vertexShaderSource, const std::string& fragmentShaderSource) {
     // Shader Compilation
     const GLuint vertexShader = CompileShader(GL_VERTEX_SHADER, vertexShaderSource);
     const GLuint fragmentShader = CompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
 
     // Program Creation
-    const GLuint program = glCreateProgram();
-    glAttachShader(program, vertexShader);
-    glAttachShader(program, fragmentShader);
-    glLinkProgram(program);
-    glValidateProgram(program);
+    const GLuint shader = glCreateProgram();
+    glAttachShader(shader, vertexShader);
+    glAttachShader(shader, fragmentShader);
+    glLinkProgram(shader);
+    glValidateProgram(shader);
 
     // Cleanup
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    return program;
+    return shader;
 }

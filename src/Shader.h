@@ -9,6 +9,6 @@ public:
 
     static GLuint CompileShader(GLuint type, const std::string& source);
 
-    static GLuint CreateShaderProgram(const std::string& vertexShaderSource,
-                                      const std::string& fragmentShaderSource);
+    static GLuint CreateShader(const std::string& vertexShaderSource,
+                               const std::string& fragmentShaderSource);
 };

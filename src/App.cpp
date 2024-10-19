@@ -2,13 +2,18 @@
 
 #include <cassert>
 
-#include "BufferObject.h"
 #include "Window.h"
+#include "Renderer.h"
+#include "VertexArrayObject.h"
+#include "BufferObject.h"
+
+#define WINDOW_WIDTH  640
+#define WINDOW_HEIGHT 480
+#define WINDOW_TITLE  ""
+#define VSYNC         true
 
 int main() {
-    // Create a new window
-    const Window window(640, 480, "", true);
-
+    // Initialize vertex data
     float vertices[] = {
         -0.5f, -0.5f, // index 0
          0.5f, -0.5f, // index 1
@@ -16,22 +21,23 @@ int main() {
         -0.5f,  0.5f  // index 3
     };
 
+    // Initialize index data
     unsigned int indices[] = {
-        0, 1, 2,
-        2, 3, 0
+        0, 1, 2, // Triangle 1
+        2, 3, 0  // Triangle 2
     };
 
-    GLuint vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
+    // Create a new window
+    WindowManager::Init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
+    Renderer::Init(VSYNC);
 
-    auto vbo = VertexBufferObject(vertices, 8, GL_STATIC_DRAW);
-    auto ibo = IndexBufferObject (indices,  6, GL_STATIC_DRAW);
+    // Declare and initialize buffers
+    const auto vao = VertexArrayObject ();
+    const auto vbo = VertexBufferObject(vertices, 8, GL_STATIC_DRAW);
+    const auto ibo = IndexBufferObject (indices,  6, GL_STATIC_DRAW);
+    vao.AddVertexBuffer(vbo);
 
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), nullptr);
-
-    const int location = glGetUniformLocation(window.shader_program, "u_Color");
+    const int location = glGetUniformLocation(Renderer::Shader, "u_Color");
     assert(location != -1);
     glUniform4f(location, 1.0, 0.0, 0.0, 1.0);
 
@@ -40,8 +46,8 @@ int main() {
     float i = 0.01f;
 
     // Main Loop
-    while (window.IsActive()) {
-        window.BeginRendering();
+    while (WindowManager::WindowIsActive()) {
+        Renderer::ClearBackground();
 
         i = red > 1.0f || red < 0.0f ? -i : i;
 
@@ -50,6 +56,10 @@ int main() {
 
         glUniform4f(location, red, 0.0, blue, 1.0);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-        window.EndRendering();
+        WindowManager::UpdateWindow();
     }
+
+    // Close window
+    Renderer::Terminate();
+    WindowManager::Terminate();
 }

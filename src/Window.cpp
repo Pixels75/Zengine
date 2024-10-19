@@ -1,12 +1,11 @@
 #include "Window.h"
 
-#include <cassert>
 #include <iostream>
 #include <GLFW/glfw3.h>
 
 #include "Shader.h"
 
-Window::Window(const uint16_t width, const uint16_t height, const char *title, const bool vSync)
+Window::Window(const unsigned int width, const unsigned int height, const char* title)
     : m_width(width), m_height(height), m_title(title) {
     // Initialize GLFW
     if (!glfwInit()) {
@@ -14,53 +13,47 @@ Window::Window(const uint16_t width, const uint16_t height, const char *title, c
         return;
     }
 
+    // Set OpenGL version
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Create a new window
-    m_window = glfwCreateWindow(m_width, m_height, m_title, nullptr, nullptr);
-    if (!m_window) {
+    glfwWindow = glfwCreateWindow(static_cast<int>(m_width), static_cast<int>(m_height), m_title, nullptr, nullptr);
+    if (!glfwWindow) {
         std::cerr << "Failed to create window\n";
         glfwTerminate();
         return;
     }
 
-    glfwMakeContextCurrent(m_window);
-
-    if (vSync)
-        glfwSwapInterval(1);
-
-    if (glewInit() != GLEW_OK) {
-        std::cerr << "Failed to initialize GLEW\n";
-        glfwTerminate();
-        return;
-    }
-
-    // Print OpenGL and GLSL version
-    std::cout << "OpenGL Version - " << glGetString(GL_VERSION) << '\n';
-    std::cout << "GLSL Version   - " << glGetString(GL_SHADING_LANGUAGE_VERSION) << '\n';
-
-    shader_program = Shader::CreateShaderProgram(Shader::LoadShader("../res/vertex_shader.vert"  ),
-                                            Shader::LoadShader("../res/fragment_shader.frag"));
-    glUseProgram(shader_program);
+    glfwMakeContextCurrent(glfwWindow);
 }
 
 Window::~Window() {
-    glDeleteProgram(shader_program);
     glfwTerminate();
 }
 
-void Window::BeginRendering() const {
-    glClear(GL_COLOR_BUFFER_BIT);
+bool WindowManager::WindowIsActive() {
+    return !glfwWindowShouldClose(Instance->glfwWindow);
 }
 
-void Window::EndRendering() const {
-    glfwSwapBuffers(m_window);
+Window* WindowManager::Instance = nullptr;
+
+Window* WindowManager::GetInstance() {
+    return Instance;
+}
+
+void WindowManager::Init(const unsigned int width, const unsigned int height, const char* title) {
+    if (Instance != nullptr) return;
+    Instance = new Window(width, height, title);
+}
+
+void WindowManager::Terminate() {
+    Instance->~Window();
+    delete Instance;
+}
+
+void WindowManager::UpdateWindow() {
+    glfwSwapBuffers(Instance->glfwWindow);
     glfwPollEvents();
-}
-
-bool Window::IsActive() const {
-    return !glfwWindowShouldClose(m_window);
 }

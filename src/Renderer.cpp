@@ -7,7 +7,7 @@
 
 #include "Shader.h"
 
-GLuint Renderer::Shader;
+Shader Renderer::ActiveShader;
 
 void Renderer::Init(const bool vSync) {
     if (vSync)
@@ -18,18 +18,18 @@ void Renderer::Init(const bool vSync) {
         glfwTerminate();
         return;
     }
+
     // Print OpenGL and GLSL version
     std::cout << "OpenGL Version - " << glGetString(GL_VERSION) << '\n';
     std::cout << "GLSL Version   - " << glGetString(GL_SHADING_LANGUAGE_VERSION) << '\n';
 
     // Load and set shaders
-    Shader = Shader::CreateShader(Shader::LoadShader("../res/vertex_shader.vert"  ),
-                                  Shader::LoadShader("../res/fragment_shader.frag"));
-    glUseProgram(Shader);
+    ActiveShader = Shader("../res/shaders/vertex_shader.vert", "../res/shaders/fragment_shader.frag");
+    ActiveShader.Bind();
 }
 
-void Renderer::Terminate() {
-    glDeleteProgram(Shader);
+const Shader& Renderer::GetActiveShader() {
+    return ActiveShader;
 }
 
 void Renderer::ClearColorBuffer() {

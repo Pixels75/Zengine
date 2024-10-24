@@ -4,8 +4,6 @@
 
 #include <GLFW/glfw3.h>
 
-#include "Shader.h"
-
 Window::Window(const unsigned int width, const unsigned int height, const char* title)
     : m_width(width), m_height(height), m_title(title) {
     // Initialize GLFW
@@ -13,6 +11,7 @@ Window::Window(const unsigned int width, const unsigned int height, const char* 
         std::cerr << "Failed to initialize GLFW\n";
         return;
     }
+    std::cout << "Debug" << std::endl;
 
     // Set OpenGL version
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);

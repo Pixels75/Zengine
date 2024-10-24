@@ -1,8 +1,9 @@
 #pragma once
 
 #include <csignal>
-#include <GL/glew.h>
 #include <iostream>
+
+#include "Shader.h"
 
 #define ASSERT(x, m) if (!(x)) {\
         std::cout << "Assertion Failed: " << m << std::endl;\
@@ -11,10 +12,11 @@
 
 class Renderer {
 public:
-    static GLuint Shader;
-
     static void Init(bool vSync);
-    static void Terminate();
+
+    static const Shader& GetActiveShader();
 
     static void ClearColorBuffer();
+private:
+    static Shader ActiveShader;
 };

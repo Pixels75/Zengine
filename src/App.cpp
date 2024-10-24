@@ -2,8 +2,8 @@
 
 #include "Window.h"
 #include "Renderer.h"
-#include "VertexArrayObject.h"
-#include "BufferObject.h"
+#include "Objects/VertexArrayObject.h"
+#include "Objects/BufferObject.h"
 
 #define WINDOW_WIDTH  640
 #define WINDOW_HEIGHT 480
@@ -38,9 +38,7 @@ int main() {
     layout.Push<float>(2);
     vao.AddVertexBuffer(vbo, layout);
 
-    const int location = glGetUniformLocation(Renderer::Shader, "u_Color");
-    ASSERT(location != -1, "Uniform 'u_Color' not found")
-    glUniform4f(location, 1.0, 0.0, 0.0, 1.0);
+    Renderer::GetActiveShader().SetUniform4f("u_Color", 1.0, 0.0, 0.0, 1.0);
 
     float red = 1.0f;
     float blue = 0.0f;
@@ -55,12 +53,11 @@ int main() {
         red  -= i;
         blue += i;
 
-        glUniform4f(location, red, 0.0, blue, 1.0);
+        Renderer::GetActiveShader().SetUniform4f("u_Color", red, 0.0, blue, 1.0);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
         WindowManager::UpdateWindow();
     }
 
     // Close window
-    Renderer::Terminate();
     WindowManager::Terminate();
 }

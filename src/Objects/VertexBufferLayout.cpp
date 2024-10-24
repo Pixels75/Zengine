@@ -2,6 +2,10 @@
 
 #include <GL/glew.h>
 
+unsigned int VertexBufferElement::GetStride() const {
+    return count * GetSize();
+}
+
 unsigned int VertexBufferElement::GetSize() const {
     switch (type) {
         case GL_FLOAT:          return  4;

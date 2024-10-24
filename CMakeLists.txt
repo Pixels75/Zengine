@@ -10,14 +10,14 @@ set(SOURCE_FILES src/App.cpp
         src/window.h
         src/shader.cpp
         src/shader.h
-        src/BufferObject.cpp
-        src/BufferObject.h
-        src/VertexArrayObject.cpp
-        src/VertexArrayObject.h
+        src/Objects/BufferObject.cpp
+        src/Objects/BufferObject.h
+        src/Objects/VertexArrayObject.cpp
+        src/Objects/VertexArrayObject.h
         src/Renderer.cpp
         src/Renderer.h
-        src/VertexBufferLayout.cpp
-        src/VertexBufferLayout.h)
+        src/Objects/VertexBufferLayout.cpp
+        src/Objects/VertexBufferLayout.h)
 
 include_directories(${GLFW_DIR}/include ${GLEW_DIR}/include)
 

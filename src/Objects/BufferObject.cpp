@@ -1,7 +1,9 @@
 #include "BufferObject.h"
 
-BufferObject::BufferObject(const BufferObjectType type, const unsigned int count, const GLuint usage)
-: m_type(type), m_count(count), usage(usage) {
+#include <GL/glew.h>
+
+BufferObject::BufferObject(const unsigned int type, const unsigned int count, const unsigned int usage)
+    : m_type(type), m_count(count), usage(usage) {
     glGenBuffers(1, &m_id);
 }
 
@@ -17,14 +19,20 @@ void BufferObject::Unbind() const {
     glBindBuffer(m_type, 0);
 }
 
-VertexBufferObject::VertexBufferObject(float* vertices, const unsigned int count, const GLuint usage)
-: BufferObject(VERTEX_BUFFER_OBJ, count, usage), m_vertices(vertices) {
-    glBindBuffer(m_type, m_id);
-    glBufferData(m_type, static_cast<GLsizeiptr>(m_count * sizeof(float)), m_vertices, usage);
+unsigned int BufferObject::GetCount() const {
+    return m_count;
 }
 
-IndexBufferObject::IndexBufferObject(unsigned int* indices, const unsigned int count, const GLuint usage)
-: BufferObject(INDEX_BUFFER_OBJ, count, usage), m_indices(indices) {
-    glBindBuffer(m_type, m_id);
-    glBufferData(m_type, static_cast<GLsizeiptr>(m_count * sizeof(unsigned int)), m_indices, usage);
+VertexBufferObject::VertexBufferObject(float *vertices, const unsigned int count, const unsigned int usage)
+    : BufferObject(GL_ARRAY_BUFFER, count, usage), m_vertices(vertices) {
+    Bind();
+    glBufferData(m_type, (GLsizeiptr) (m_count * sizeof(float)), m_vertices, usage);
+    Unbind();
+}
+
+IndexBufferObject::IndexBufferObject(unsigned int *indices, const unsigned int count, const unsigned int usage)
+    : BufferObject(GL_ELEMENT_ARRAY_BUFFER, count, usage), m_indices(indices) {
+    Bind();
+    glBufferData(m_type, (GLsizeiptr) (m_count * sizeof(unsigned int)), m_indices, usage);
+    Unbind();
 }

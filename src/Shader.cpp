@@ -7,7 +7,7 @@
 
 #include "Renderer.h"
 
-std::string Shader::LoadShader(const std::string& filepath) {
+std::string Shader::LoadShader(const std::string &filepath) {
     std::fstream file(filepath, std::ios::in);
     if (!file.is_open()) {
         std::cerr << "Failed to open shader file " << filepath << '\n';
@@ -24,9 +24,9 @@ std::string Shader::LoadShader(const std::string& filepath) {
     return contents;
 }
 
-unsigned int Shader::CompileShader(const unsigned int type, const std::string& source) {
+unsigned int Shader::CompileShader(const unsigned int type, const std::string &source) {
     const unsigned int id = glCreateShader(type);
-    const char* sourceCString = source.c_str();
+    const char *sourceCString = source.c_str();
     glShaderSource(id, 1, &sourceCString, nullptr);
     glCompileShader(id);
 
@@ -35,7 +35,7 @@ unsigned int Shader::CompileShader(const unsigned int type, const std::string& s
     if (success == GL_FALSE) {
         int length;
         glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-        const auto message = static_cast<char*>(alloca(length));
+        const auto message = (char *) alloca(length);
         glGetShaderInfoLog(id, length, &length, message);
         std::cerr << message << '\n';
         glDeleteShader(id);
@@ -45,9 +45,9 @@ unsigned int Shader::CompileShader(const unsigned int type, const std::string& s
     return id;
 }
 
-unsigned int Shader::CreateShader(const std::string& vertexShaderSource, const std::string& fragmentShaderSource) {
+unsigned int Shader::CreateShader(const std::string &vertexShaderSource, const std::string &fragmentShaderSource) {
     // Shader Compilation
-    const unsigned int vertexShader   = CompileShader(GL_VERTEX_SHADER,   vertexShaderSource  );
+    const unsigned int vertexShader = CompileShader(GL_VERTEX_SHADER, vertexShaderSource);
     const unsigned int fragmentShader = CompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
 
     // Program Creation
@@ -64,17 +64,19 @@ unsigned int Shader::CreateShader(const std::string& vertexShaderSource, const s
     return shader;
 }
 
-Shader::Shader(const std::string& vertShaderFilePath, const std::string& fragShaderFilePath) {
+Shader::Shader(const std::string &vertShaderFilePath, const std::string &fragShaderFilePath) {
     m_RendererID = CreateShader(LoadShader(vertShaderFilePath),
                                 LoadShader(fragShaderFilePath));
 }
 
-Shader::Shader(Shader&& shader) noexcept {
+Shader::Shader(Shader &&shader) noexcept {
+    glDeleteProgram(m_RendererID);
     m_RendererID = shader.m_RendererID;
     shader.m_RendererID = 0;
 }
 
-Shader& Shader::operator=(Shader&& shader) noexcept {
+Shader &Shader::operator=(Shader &&shader) noexcept {
+    glDeleteProgram(m_RendererID);
     m_RendererID = shader.m_RendererID;
     shader.m_RendererID = 0;
     return *this;
@@ -92,7 +94,8 @@ void Shader::Unbind() const {
     glUseProgram(0);
 }
 
-void Shader::SetUniform4f(const std::string& name, const float v1, const float v2, const float v3, const float v4) const {
+void Shader::SetUniform4f(const std::string &name, const float v1, const float v2, const float v3,
+                          const float v4) const {
     const auto location = glGetUniformLocation(m_RendererID, name.c_str());
     glUniform4f(location, v1, v2, v3, v4);
 }
@@ -101,7 +104,7 @@ unsigned int Shader::GetID() const {
     return m_RendererID;
 }
 
-int Shader::GetUniformLocation(const std::string& name) {
+int Shader::GetUniformLocation(const std::string &name) {
     if (m_UniformLocationCache.contains(name)) {
         return m_UniformLocationCache.at(name);
     }

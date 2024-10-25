@@ -1,37 +1,36 @@
 #pragma once
 
-#include <GL/glew.h>
-
-enum BufferObjectType {
-    NULL_BUFFER_OBJ   = 0,
-    VERTEX_BUFFER_OBJ = GL_ARRAY_BUFFER,
-    INDEX_BUFFER_OBJ  = GL_ELEMENT_ARRAY_BUFFER
-};
-
 class BufferObject {
 public:
-    BufferObject(BufferObjectType type, unsigned int count, GLuint usage);
+    BufferObject(unsigned int type, unsigned int count, unsigned int usage);
+
     ~BufferObject();
 
     void Bind() const;
+
     void Unbind() const;
+
+    [[nodiscard]] unsigned int GetCount() const;
+
 protected:
-    BufferObjectType m_type = NULL_BUFFER_OBJ;
+    unsigned int m_type = 0;
     unsigned int m_count = 0;
-    GLuint usage;
-    GLuint m_id = 0;
+    unsigned int usage;
+    unsigned int m_id = 0;
 };
 
 class VertexBufferObject : public BufferObject {
 public:
-    VertexBufferObject(float* vertices, unsigned int count, GLuint usage);
+    VertexBufferObject(float *vertices, unsigned int count, unsigned int usage);
+
 private:
-    float* m_vertices = nullptr;
+    float *m_vertices = nullptr;
 };
 
 class IndexBufferObject : public BufferObject {
 public:
-    IndexBufferObject(unsigned int* indices, unsigned int count, GLuint usage);
+    IndexBufferObject(unsigned int *indices, unsigned int count, unsigned int usage);
+
 private:
-    unsigned int* m_indices = nullptr;
+    unsigned int *m_indices = nullptr;
 };

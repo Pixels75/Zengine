@@ -8,25 +8,27 @@
 
 class Window {
 public:
-    GLFWwindow* glfwWindow;
+    GLFWwindow *glfwWindow;
 
-    Window(unsigned int width, unsigned int height, const char* title);
+    Window(unsigned int width, unsigned int height, const char *title);
+
     ~Window();
 
 private:
     unsigned int m_width, m_height;
-    const char* m_title;
+    const char *m_title;
 };
 
 class WindowManager {
 public:
     [[nodiscard]] static bool WindowIsActive();
 
-    static void Init(unsigned int width, unsigned int height, const char* title);
+    static void Init(unsigned int width, unsigned int height, const char *title);
+
     static void Terminate();
 
     static void UpdateWindow();
 
 private:
-    static Window* WindowInstance;
+    static Window *WindowInstance;
 };

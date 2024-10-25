@@ -10,7 +10,8 @@ struct VertexBufferElement {
     unsigned int count;
     bool normalized;
 
-    [[nodiscard]] unsigned int GetSize()   const;
+    [[nodiscard]] unsigned int GetSize() const;
+
     [[nodiscard]] unsigned int GetStride() const;
 };
 

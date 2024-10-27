@@ -6,10 +6,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 set(GLFW_DIR ${PROJECT_SOURCE_DIR}/deps/GLFW)
 set(GLEW_DIR ${PROJECT_SOURCE_DIR}/deps/GLEW/2.2.0_1)
 set(SOURCE_FILES src/App.cpp
-        src/window.cpp
-        src/window.h
-        src/shader.cpp
-        src/shader.h
+        src/Window.cpp
+        src/Window.h
+        src/Shader.cpp
+        src/Shader.h
         src/Objects/BufferObject.cpp
         src/Objects/BufferObject.h
         src/Objects/VertexArrayObject.cpp

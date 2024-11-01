@@ -64,9 +64,9 @@ unsigned int Shader::CreateShader(const std::string &vertexShaderSource, const s
     return shader;
 }
 
-Shader::Shader(const std::string &vertShaderFilePath, const std::string &fragShaderFilePath) {
-    m_RendererID = CreateShader(LoadShader(vertShaderFilePath),
-                                LoadShader(fragShaderFilePath));
+Shader::Shader(const std::string &vertShaderfilepath, const std::string &fragShaderfilepath) {
+    m_RendererID = CreateShader(LoadShader(vertShaderfilepath),
+                                LoadShader(fragShaderfilepath));
 }
 
 Shader::Shader(Shader &&shader) noexcept {

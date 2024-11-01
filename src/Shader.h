@@ -15,7 +15,7 @@ public:
 public:
     Shader() = default;
 
-    Shader(const std::string &vertShaderFilePath, const std::string &fragShaderFilePath);
+    Shader(const std::string &vertShaderfilepath, const std::string &fragShaderfilepath);
 
     Shader(const Shader &shader) = delete;
 

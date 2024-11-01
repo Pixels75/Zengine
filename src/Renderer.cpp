@@ -32,6 +32,9 @@ void Renderer::Init(const std::string &vertShaderPath, const std::string &fragSh
     // Load and set shaders
     SetActiveShader(Shader(vertShaderPath, fragShaderPath));
     ActiveShader.Bind();
+
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 const Shader &Renderer::GetActiveShader() {

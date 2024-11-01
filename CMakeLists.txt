@@ -17,9 +17,13 @@ set(SOURCE_FILES src/App.cpp
         src/Renderer.cpp
         src/Renderer.h
         src/Objects/VertexBufferLayout.cpp
-        src/Objects/VertexBufferLayout.h)
+        src/Objects/VertexBufferLayout.h
+        deps/stb_image/stb_image.cpp
+        deps/stb_image/stb_image.h
+        src/Texture.cpp
+        src/Texture.h)
 
-include_directories(${GLFW_DIR}/include ${GLEW_DIR}/include)
+include_directories(${GLFW_DIR}/include ${GLEW_DIR}/include deps/stb_image)
 
 add_compile_definitions(GLEW_STATIC)
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
